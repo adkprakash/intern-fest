@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Registration Form</title>
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <h:panelGrid columns="2" cellspacing="5">
+            
+                        <h:outputLabel>First Name (*): </h:outputLabel>
+                   
+                        <h:inputText value="#{user.firstName}" required="true" />
+                   
+                        <h:outputLabel>Middle Name: </h:outputLabel>
+                   
+                        <h:inputText value="#{user.middleName}" />
+                   
+                        <h:outputLabel>Last Name(*): </h:outputLabel>
+                    
+                        <h:inputText value="#{user.lastName}" required="true" />
+                  
+                        <h:outputLabel>Faculty: </h:outputLabel>
+                   
+                        <h:selectOneMenu id="txtFaculty" value="#{user.faculty}" required="true" requiredMessage="Please select a faculty"
+                                                                style="width: 177px; height: 22px">
+                            <f:selectItem itemLabel="Select Faculty" itemValue=""  noSelectionOption="true" />
+                            <f:selectItems value="#{user.facultyList}" />
+                            <f:ajax  execute="txtFaculty" listener="#{user.onFacultyChange}" render="txtProgram" 
+                                     event="valueChange" />
+                        </h:selectOneMenu>
+                   
+                        <h:outputLabel>Program: </h:outputLabel>
+                   
+                        <h:selectOneMenu id="txtProgram" value="#{user.program}" required="true" requiredMessage="Please select a program"
+                                                                style="width: 177px; height: 22px">
+                            <f:selectItem itemLabel="Select Program" itemValue=""  noSelectionOption="true" />
+                            <f:selectItems value="#{user.programList}" />
+                        </h:selectOneMenu>
+                 
+                        <h:commandButton value="Save" action="#{user.save()}" onclick="resetform()" />
+                  
+            </h:panelGrid>
+        </h:form>
+        
+        <br /><br />
+        
+        <h:dataTable value="#{user.userList}" var="u" border="1">
+            
+                <h:column >
+                    <f:facet name="header">First Name</f:facet>
+                    <h:outputText value="#{u.firstName}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Middle Name</f:facet>
+                    <h:outputText value="#{u.middleName}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Last Name</f:facet>
+                    <h:outputText value="#{u.lastName}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Faculty</f:facet>
+                    <h:outputText value=" #{u.faculty}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Program</f:facet>
+                    <h:outputText value="#{u.program}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:form>
+                    <h:commandLink value="Edit" action="#{user.update(u)}" immediate="true"/> |
+                    <h:commandLink value="Delete" action="#{user.delete(u)}" immediate="true"/>
+                    </h:form>
+                </h:column>
+
+            </h:dataTable>
+
+    </h:body>
+</html>
+
